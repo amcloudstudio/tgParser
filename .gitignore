@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.session
+*.session-journal
+data/output/*
+!data/output/.gitkeep
+.DS_Store
