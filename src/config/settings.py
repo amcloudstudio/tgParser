@@ -14,6 +14,7 @@ class Settings:
     api_hash: str
     session_name: str
     targets: list = field(default_factory=list)
+    target_keywords: list = field(default_factory=list)
     output_format: str = "csv"
     output_dir: str = "data/output"
 
@@ -25,6 +26,7 @@ def load_settings(env_path: str = ".env") -> Settings:
     api_hash = os.getenv("API_HASH", "").strip()
     session_name = os.getenv("SESSION_NAME", "telegram_parser").strip()
     targets_raw = os.getenv("TARGETS", "").strip()
+    keywords_raw = os.getenv("TARGET_KEYWORDS", "").strip()
     output_format = os.getenv("OUTPUT_FORMAT", "csv").strip().lower()
     output_dir = os.getenv("OUTPUT_DIR", "data/output").strip()
 
@@ -40,12 +42,14 @@ def load_settings(env_path: str = ".env") -> Settings:
         raise ConfigError("OUTPUT_FORMAT must be 'csv' or 'json'")
 
     targets = [t.strip() for t in targets_raw.split(",") if t.strip()]
+    target_keywords = [k.strip() for k in keywords_raw.split("|") if k.strip()]
 
     return Settings(
         api_id=api_id,
         api_hash=api_hash,
         session_name=session_name,
         targets=targets,
+        target_keywords=target_keywords,
         output_format=output_format,
         output_dir=output_dir,
     )
